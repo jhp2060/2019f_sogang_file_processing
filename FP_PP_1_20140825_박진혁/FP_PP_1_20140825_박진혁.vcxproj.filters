@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\iobuffer">
+      <UniqueIdentifier>{fca8046f-1328-4840-8e58-a1bdee03d255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\iobuffer">
+      <UniqueIdentifier>{b2458cb0-9f04-4c1f-ac1c-903553eb8130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\basic_class">
+      <UniqueIdentifier>{f1aca709-f8b0-49bd-956a-f112ebc5ddfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\basic_class">
+      <UniqueIdentifier>{0fca09dc-3b63-4716-b187-92b5c7b1a6e9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="iobuffer\buffile.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\delim.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\iobuffer.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\varlen.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_class\member.cpp">
+      <Filter>소스 파일\basic_class</Filter>
+    </ClCompile>
+    <ClCompile Include="member_manager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_class\newsAgency.cpp">
+      <Filter>소스 파일\basic_class</Filter>
+    </ClCompile>
+    <ClCompile Include="newsAgency_manager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_class\subscription.cpp">
+      <Filter>소스 파일\basic_class</Filter>
+    </ClCompile>
+    <ClCompile Include="NewsAgencySubscriptionSystem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="subscription_manager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="listFile.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="iobuffer\buffile.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\delim.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\iobuffer.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\recfile.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\varlen.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\member.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+    <ClInclude Include="member_manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\newsAgency.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+    <ClInclude Include="newsAgency_manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\subscription.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+    <ClInclude Include="NewsAgencySubscriptionSystem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="subscription_manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="usingIOBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="listFile.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\Record.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
