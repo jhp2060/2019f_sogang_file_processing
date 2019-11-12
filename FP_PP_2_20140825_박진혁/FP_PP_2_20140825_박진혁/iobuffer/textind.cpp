@@ -30,6 +30,8 @@ int TextIndex :: Insert (const char * key, int recAddr)
 
 int TextIndex :: Remove (const char * key)
 {
+	// remove the element with its key 
+	// in the arrays of Keys and RecAddrs
 	int index = Find (key);
 	if (index < 0) return 0; // key not in index
 	for (int i = index; i < NumKeys; i++)
@@ -43,9 +45,23 @@ int TextIndex :: Remove (const char * key)
 
 int TextIndex :: Search (const char * key) const
 {
+	/*
 	int index = Find (key);
 	if (index < 0) return index;
 	return RecAddrs[index];
+	*/
+
+	// project 2 : 7 -16 (Binary Serach)
+	// return "recAddr" of key
+	int lo = 0, hi = NumKeys - 1;
+	while (lo <= hi) {
+		int mid = (lo + hi) / 2;
+		int compare = strcmp(Keys[mid], key);
+		if (compare > 0) hi = mid - 1;
+		else if (compare < 0) lo = mid + 1;
+		else return RecAddrs[mid];
+	}
+	return -1;
 }
 
 void TextIndex :: Print (ostream & stream) const
@@ -59,6 +75,7 @@ void TextIndex :: Print (ostream & stream) const
 
 int TextIndex :: Find (const char * key) const
 {
+	// return index
 	for (int i = 0; i < NumKeys; i++)
 		if (strcmp(Keys[i], key)==0) return i;// key found
 //		else if (strcmp(Keys[i], key)>0) return -1;// not found
@@ -79,3 +96,13 @@ int TextIndex :: Init (int maxKeys, int unique)
 	return 1;
 }
 
+// project 2 : 7-13
+int TextIndex::FirstRecAddr() {
+	return RecAddrs[0];
+};
+
+int TextIndex::NextRecAddr(const char* key) {
+	int nextIdx = Find(key) + 1;
+	if (nextIdx >= NumKeys) return -1;
+	return RecAddrs[nextIdx];
+};

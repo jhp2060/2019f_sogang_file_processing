@@ -11,7 +11,7 @@ template <class RecType>
 class TextIndexedFile
 {public:
 	int Read (RecType & record); // read next record
-	int Read (char * key, RecType & record); // read by key
+	int Read (char * key, RecType & record); // read by key	
 	int Append (RecType & record);
 	int Update (char * oldKey, RecType & record);
 	int Create (char * name, int mode=ios::in|ios::out);
@@ -20,6 +20,11 @@ class TextIndexedFile
 	TextIndexedFile (IOBuffer & buffer, 
 		int keySize, int maxKeys = 100); 
 	~TextIndexedFile (); // close and delete
+
+	// project2 : 7-17, 7-18
+	int Remove(RecType& record);
+	void Init(char* filename);
+
 protected:
 	TextIndex Index;
 	BufferFile IndexFile;
@@ -169,3 +174,24 @@ template <class RecType>
 TextIndexedFile<RecType>::~TextIndexedFile ()
 {	Close(); }
 
+// project2 : 7-17, 7-18
+template <class RecType>
+int TextIndexedFile<RecType>::Remove(RecType& record) {
+	// if delete successfully, return 1
+	// otherwise, return 0
+	char* key = record.Key();
+	return Index.Remove((const char*)key);
+}
+
+template <class RecType>
+void TextIndexedFile<RecType>::Init(char* filename) {
+	Open(filename, ios::in);
+	RecType record = NULL;
+	int recAddr = -1;
+	while (1) {
+		recAddr = DataFile.Read(record);
+		if (recAddr == -1) break;
+		Index.Insert(record.Key(), recAddr);
+	}
+	Close();
+}

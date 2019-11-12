@@ -45,6 +45,10 @@ class BufferFile
 	// Access to IOBuffer
 	IOBuffer & GetBuffer ();
 
+	// project1 : 6-21, 6-22, 6-25
+	//int Delete(int recaddr);
+	//int Update(int )
+
    protected:
 	IOBuffer & Buffer;
 	fstream File;

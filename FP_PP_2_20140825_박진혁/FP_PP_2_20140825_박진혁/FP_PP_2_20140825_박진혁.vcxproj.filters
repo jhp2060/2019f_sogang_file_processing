@@ -13,5 +13,129 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\basic_class">
+      <UniqueIdentifier>{22e564da-b02e-41cc-92dd-938974eebf14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\iobuffer">
+      <UniqueIdentifier>{2eba87ff-655b-4377-ae66-7218dc755347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\iobuffer">
+      <UniqueIdentifier>{21ef77d1-7eba-4287-8a49-ec29dcf7b9b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\basic_class">
+      <UniqueIdentifier>{d8841a59-9d5b-42ea-9229-a321ffd26724}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="iobuffer\buffile.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\delim.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\fixfld.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\fixlen.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\iobuffer.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\textind.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\tindbuff.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="iobuffer\varlen.cpp">
+      <Filter>소스 파일\iobuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_class\member.cpp">
+      <Filter>소스 파일\basic_class</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_class\subscription.cpp">
+      <Filter>소스 파일\basic_class</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_class\newsAgency.cpp">
+      <Filter>소스 파일\basic_class</Filter>
+    </ClCompile>
+    <ClCompile Include="listFile.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="member_manager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="newsAgency_manager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="NewsAgencySubscriptionSystem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="subscription_manager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="iobuffer\buffile.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\delim.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\fixfld.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\indfile.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\fixlen.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\iobuffer.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\recfile.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\textind.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\tindbuff.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="iobuffer\varlen.h">
+      <Filter>헤더 파일\iobuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\member.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\newsAgency.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\Record.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_class\subscription.h">
+      <Filter>헤더 파일\basic_class</Filter>
+    </ClInclude>
+    <ClInclude Include="usingIOBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="member_manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NewsAgencySubscriptionSystem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="newsAgency_manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="subscription_manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="listFile.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

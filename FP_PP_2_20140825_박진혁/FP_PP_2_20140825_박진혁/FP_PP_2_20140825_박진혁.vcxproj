@@ -139,6 +139,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="basic_class\member.cpp" />
+    <ClCompile Include="basic_class\newsAgency.cpp" />
+    <ClCompile Include="basic_class\subscription.cpp" />
+    <ClCompile Include="iobuffer\buffile.cpp" />
+    <ClCompile Include="iobuffer\delim.cpp" />
+    <ClCompile Include="iobuffer\fixfld.cpp" />
+    <ClCompile Include="iobuffer\fixlen.cpp" />
+    <ClCompile Include="iobuffer\iobuffer.cpp" />
+    <ClCompile Include="iobuffer\textind.cpp" />
+    <ClCompile Include="iobuffer\tindbuff.cpp" />
+    <ClCompile Include="iobuffer\varlen.cpp" />
+    <ClCompile Include="listFile.cpp" />
+    <ClCompile Include="member_manager.cpp" />
+    <ClCompile Include="NewsAgencySubscriptionSystem.cpp" />
+    <ClCompile Include="newsAgency_manager.cpp" />
+    <ClCompile Include="subscription_manager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="basic_class\member.h" />
+    <ClInclude Include="basic_class\newsAgency.h" />
+    <ClInclude Include="basic_class\Record.h" />
+    <ClInclude Include="basic_class\subscription.h" />
+    <ClInclude Include="iobuffer\buffile.h" />
+    <ClInclude Include="iobuffer\delim.h" />
+    <ClInclude Include="iobuffer\fixfld.h" />
+    <ClInclude Include="iobuffer\fixlen.h" />
+    <ClInclude Include="iobuffer\indfile.h" />
+    <ClInclude Include="iobuffer\iobuffer.h" />
+    <ClInclude Include="iobuffer\recfile.h" />
+    <ClInclude Include="iobuffer\textind.h" />
+    <ClInclude Include="iobuffer\tindbuff.h" />
+    <ClInclude Include="iobuffer\varlen.h" />
+    <ClInclude Include="listFile.h" />
+    <ClInclude Include="member_manager.h" />
+    <ClInclude Include="NewsAgencySubscriptionSystem.h" />
+    <ClInclude Include="newsAgency_manager.h" />
+    <ClInclude Include="subscription_manager.h" />
+    <ClInclude Include="usingIOBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

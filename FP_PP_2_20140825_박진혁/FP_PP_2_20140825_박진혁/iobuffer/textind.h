@@ -14,6 +14,11 @@ class TextIndex
 	int Remove (const char * key);
 	int Search (const char * key) const;
 	void Print (ostream &) const;
+
+	// project2 : 7-13
+	int FirstRecAddr();
+	int NextRecAddr(const char *key);
+
   protected:
 	int MaxKeys;
 	int NumKeys;

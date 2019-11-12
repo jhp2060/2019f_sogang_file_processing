@@ -80,3 +80,9 @@ int IOBuffer::WriteHeader (ostream & stream) const
 	return headerSize;
 }
 
+// project1 : 6-21
+//int IOBuffer::DDelete(iostream& is, int recref) {
+//	is.seekp(recref, ios_base::beg);
+//	if ((int)is.tellp() != recref) return -1;
+//	return Delete(is);
+//}

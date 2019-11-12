@@ -20,6 +20,7 @@ class FixedLengthBuffer: public IOBuffer
 	int WriteHeader (ostream &) const; // write a header to the stream
 	void Print (ostream &) const;
 	int SizeOfBuffer () const; // return size of buffer
+
  protected:
  	int Init (int recordSize);
 	int ChangeRecordSize (int recordSize);
