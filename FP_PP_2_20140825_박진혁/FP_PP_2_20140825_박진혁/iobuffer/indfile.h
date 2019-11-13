@@ -25,6 +25,12 @@ class TextIndexedFile
 	int Remove(RecType& record);
 	void Init(char* filename);
 
+	// project2
+	void Delete(int recaddr);
+	int Write(RecType & record, int recaddr);
+	int Insert(const char * key, int recAddr);
+
+	
 protected:
 	TextIndex Index;
 	BufferFile IndexFile;
@@ -194,4 +200,21 @@ void TextIndexedFile<RecType>::Init(char* filename) {
 		Index.Insert(record.Key(), recAddr);
 	}
 	Close();
+}
+
+
+// project2
+template <class RecType>
+void TextIndexedFile<RecType>::Delete(int recaddr) {
+	DataFile.Delete(recaddr);
+}
+
+template <class RecType>
+int TextIndexedFile<RecType>::Write(RecType & record, int recaddr) {
+	return DataFile.Write(record, recaddr);
+}
+
+template <class RecType>
+int TextIndexedFile<RecType>::Insert(const char * key, int recAddr) {
+	return Index.Insert(key, recAddr);
 }

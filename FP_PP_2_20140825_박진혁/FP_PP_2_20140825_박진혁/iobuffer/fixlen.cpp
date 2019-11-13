@@ -24,12 +24,24 @@ void FixedLengthBuffer :: Clear ()
 
 int FixedLengthBuffer :: Read (istream & stream)
 // write the number of bytes in the buffer field definitions
-{
+{	
+	// at first, tellg returns 0
 	int recaddr = (int)stream . tellg (); stream.clear();
 	Clear ();
 	Packing = FALSE;
+
+	// get the characters from stream and store them into buffer
 	stream . read (Buffer, BufferSize);
+
+	// check if the stream is good (eofbit, failbit, badbit are not set)
 	if (! stream . good ()){stream.clear(); return recaddr;}
+
+	// project1 : 6-21, 6-23
+	// check if the record is deleted
+	if (Buffer[0] == '*') {
+		return -1;
+	}
+
 	return recaddr;
 }
 
@@ -112,4 +124,14 @@ int FixedLengthBuffer :: ChangeRecordSize (int recordSize)
 {
 	BufferSize = recordSize;
 	return 1;
+}
+
+// project1 : 6-21, 6-23
+void FixedLengthBuffer::Delete(ostream& os, int recaddr) {
+	os.seekp(recaddr, ios::beg);
+	os.write("*", 1);
+}
+
+int FixedLengthBuffer::SizeOfBuffer() const {
+	return BufferSize;
 }

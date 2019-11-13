@@ -66,4 +66,3 @@ void TextIndexBuffer:: Print (ostream & stream) const
 		<<" MaxKeys "<<MaxKeys<<endl;
 	FixedFieldBuffer :: Print (stream);
 }
-

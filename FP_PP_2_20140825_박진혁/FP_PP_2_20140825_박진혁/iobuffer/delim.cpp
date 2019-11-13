@@ -112,3 +112,4 @@ void DelimFieldBuffer :: SetDefaultDelim (char delim)
 // initialize static protected element
 
 char DelimFieldBuffer :: DefaultDelim = 0;
+

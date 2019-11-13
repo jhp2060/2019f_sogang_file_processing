@@ -6,6 +6,8 @@
 #include <iostream>
 #include "iobuffer.h"
 
+#define AVAIL_MAX 100;
+
 class VariableLengthBuffer: public IOBuffer
 // Abstract class designed to support variablelength records
 // Fields may be of a variety of types
@@ -26,6 +28,11 @@ class VariableLengthBuffer: public IOBuffer
 	void Print (ostream &) const;
 	int SizeOfBuffer () const; // return current size of buffer
  	int Init ();
+
+	// project1 : 6-21, 6-23
+	void Delete(ostream& os, int recaddr);
+	int deletedRecaddr = -1;
+
  protected:
 };
 

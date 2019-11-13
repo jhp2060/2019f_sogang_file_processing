@@ -41,10 +41,10 @@ class IOBuffer
 	virtual int ReadHeader (istream &); // write a buffer to the stream
 	virtual int WriteHeader (ostream &) const; // write a buffer to the stream
 
-	// project1 : 6-21
-	//virtual int DDelete(iostream&, int recref);
-	//virtual int Delete(iostream&) = 0;
-
+	// project1 : 6-21, 6-23
+	// should be implemented by varlen and fixedlen
+	virtual void Delete(ostream& os, int recaddr) = 0;
+	
  protected:
 	int Initialized; // TRUE if buffer is initialized
 	char * Buffer; // character array to hold field values

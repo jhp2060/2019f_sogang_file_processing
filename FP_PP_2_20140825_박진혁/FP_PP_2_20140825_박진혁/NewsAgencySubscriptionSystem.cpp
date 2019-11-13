@@ -1,21 +1,24 @@
 #include "NewsAgencySubscriptionSystem.h"
 
-int main() {
-	
-	/*generateMemberList(1000);
+void init() {
+	generateMemberList(1000);
 	generateNewsAgencyList(1000);
-	generateSusbscriptionList(10000, 1000, 1000);*/
+	generateSusbscriptionList(10000, 1000, 1000);
 
-	//// make .dat files
-	//dataTest<Member>();
-	//dataTest<NewsAgency>();
-	//dataTest<Subscription>();
+	// make .dat files
+	dataTest<Member>();
+	dataTest<NewsAgency>();
+	dataTest<Subscription>();
+
 
 	// renew .ind files
 	renewIndexFile<Member>();
 	renewIndexFile<NewsAgency>();
 	//renewIndexFile<Subscription>();
+}
 
+int main() {
+	init();
 	char c_input;
 	int input;
 	
@@ -55,8 +58,8 @@ int main() {
 	}
 	else if (strcmp(user->level, "9") == 0) {
 		// normal user
-		/*while (true) {
-			cout << " WELCOME! " << user.id << "!\n";
+		while (true) {
+			cout << " WELCOME! " << user->id << "!\n";
 			printNormalMenu();
 			cin >> input;
 			if (input == 8) break;
@@ -67,7 +70,7 @@ int main() {
 				continue;
 			}
 			executeNormalSystem(input, user);
-		}*/
+		}
 	}
 	cout << "Exit NewsAgencySubscriptionSystem..\n";
 	cout << "Now you're allowed to close the window.\n";
@@ -87,7 +90,9 @@ Member* login() {
 	cin >> id;
 	cout << "Enter your password : ";
 	cin >> password;
+
 	user = mm.memberSearch(id);
+	cout << id;
 	if (user != NULL && user->password == password) {
 		return user;
 	}
@@ -144,12 +149,15 @@ void executeAdminSystem(int menu, Member* admin) {
 		break;
 	case 4:
 		dataTest<Member>();
+		renewIndexFile<Member>();
 		break;
 	case 5:
 		dataTest<NewsAgency>();
+		renewIndexFile<NewsAgency>();
 		break;
 	case 6:
 		dataTest<Subscription>();
+		//renewIndexFile<Subscription>();
 		break;
 	case 7:
 		mm.memberInsert();
@@ -169,27 +177,37 @@ void executeAdminSystem(int menu, Member* admin) {
 		mm.memberDelete(s);
 		break;
 	case 10:
-		cout << "Input member ID : ";
+		cout << "Input member ID to search : ";
 		cin >> s;
 		tmpMember = mm.memberSearch(s);
 		if (tmpMember == NULL) cout << "No Member with that id.\n";
-		else cout << *tmpMember;
+		else {
+			cout << *tmpMember;
+			free(tmpMember);
+		}
 		break;
 	case 11:
 		nm.newsAgencyInsert();
 		break;
 	case 12:
-		nm.newsAgencyUpdate();
+		cout << "Input newsAgency ID to update (12 letters): ";
+		cin >> s;
+		nm.newsAgencyUpdate(s);
 		break;
 	case 13:
-		cout << "Input delete newsAgency ID (12 letters): ";
+		cout << "Input newsAgency ID to delete (12 letters): ";
 		cin >> s;
 		nm.newsAgencyDelete(s);
 		break;
 	case 14:
-		cout << "Input newsAgency ID (12 letters): ";
+		cout << "Input newsAgency ID to search (12 letters) : ";
 		cin >> s;
-		nm.newsAgencySearch(s);
+		tmpNewsAgency = nm.newsAgencySearch(s);
+		if (tmpNewsAgency == NULL) cout << "No NewsAgency with that id.\n";
+		else {
+			cout << *tmpNewsAgency;
+			free(tmpNewsAgency);
+		}
 		break;
 	case 15:
 		sm.subscriptionInsert();
@@ -198,14 +216,21 @@ void executeAdminSystem(int menu, Member* admin) {
 		sm.subscriptionUpdate();
 		break;
 	case 17:
-		cout << "Input delete subscription ID (16 letters): ";
+		cout << "Input subscription ID to delete (16 letters): ";
 		cin >> s;
 		sm.subscriptionDelete(s);
 		break;
 	case 18:
-		cout << "Input subscription ID (16 letters): ";
+		cout << "Input subscription ID to search (16 letters): ";
 		cin >> s;
-		sm.subscriptionSearch(s);
+		tmpSubscription = sm.subscriptionSearch(s);
+		if (tmpSubscription == NULL) {
+			cout << "There is no subscription with that ID.\n";
+		}
+		else {
+			cout << *tmpSubscription;
+			free(tmpSubscription);
+		}
 		break;
 	default:
 		return;
@@ -229,7 +254,7 @@ void printNormalMenu() {
 	cout << " +=====================================+\n";
 	cout << " Please enter the menu number : ";
 }
-/*
+
 void executeNormalSystem(int menu, Member* user){
 	
 	MemberManager mm;
@@ -237,17 +262,17 @@ void executeNormalSystem(int menu, Member* user){
 	SubscriptionManager sm;
 
 	string s = "";
-	Subscription tmp;
+	Subscription* tmpSubscription;
 	switch (menu) {
 	case 1:
-		mm.memberUpdate(user);
+		mm.memberUpdate(user->id);
 		break;
 	case 2:
 		cout << "Your informations will be deleted PERMANANTLY. ";
 		cout << "Are you sure to withdraw? (y/n) : ";
 		cin >> s;
 		if (tolower(s[0]) == 'y') {
-			mm.memberDelete(user.id);
+			mm.memberDelete(user->id);
 		}
 		break;
 	case 3:
@@ -258,34 +283,34 @@ void executeNormalSystem(int menu, Member* user){
 	case 4:
 		cout << "Input subscription ID (16 letters): ";
 		cin >> s;
-		tmp = sm.subscriptionSearch(s);
-		if (tmp.memberId == user.id) {
-			cout << tmp;
+		tmpSubscription = sm.subscriptionSearch(s);
+		if (tmpSubscription == NULL || tmpSubscription->memberId != user->id) {
+			cout << "There is no subscription you find in your subscription list.\n";
 		}
-		else {
-			cout << "There is no subscription you find in your subscription list.\\n";
-		}
+		else cout << *tmpSubscription;
+		free(tmpSubscription);
 		break;
 	case 5:
-		sm.subscriptionInsert();
+		sm.mySubscriptionInsert(user->id);
 		break;
 	case 6:
-		sm.subscriptionUpdate();
+		sm.mySubscriptionUpdate(user->id);
 		break;
 	case 7:
-		cout << "Input delete subscription ID (16 letters): ";
+		cout << "Input subscription ID to delete (16 letters) : ";
 		cin >> s;
-		tmp = sm.subscriptionSearch(s);
-		if (tmp.memberId == user.id) {
-			cout << tmp;
+		tmpSubscription = sm.subscriptionSearch(s);
+		if (tmpSubscription == NULL 
+			|| tmpSubscription->memberId != user->id) {
+			cout << "There is no subscription you find in your subscription list.\n";
 		}
 		else {
-			cout << "There is no subscription you find in your subscription list.\\n";
+			sm.subscriptionDelete(tmpSubscription->subscriptionId);		
 		}
+		free(tmpSubscription);
 		break;
 	case 8:
 	default:
 		return;
 	}
 }
-*/

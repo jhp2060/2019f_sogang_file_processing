@@ -24,19 +24,44 @@ int VariableLengthBuffer :: Read (istream & stream)
 // write the number of bytes in the buffer field definitions
 // the record length is represented by an unsigned short value
 {
-	if (stream.eof()) return -1;
+	deletedRecaddr = -1;
+	if (stream.eof()) {
+		BufferSize = -1;
+		return -1;
+	}
 	int recaddr = (int)stream . tellg ();
 	Clear ();
+	
+	// get the record length for making buffer
 	unsigned short bufferSize;
 	stream . read ((char *)&bufferSize, sizeof(bufferSize));
-	if (! stream . good ()){stream.clear(); return -1;}
+
+	if (! stream . good ()){
+		stream.clear(); 
+		BufferSize = -1;
+		return -1;
+	}
 	BufferSize = bufferSize;
-	if (BufferSize > MaxBytes) return -1; // buffer overflow
+	if (BufferSize > MaxBytes) {
+		BufferSize = -1;
+		return -1; // buffer overflow
+	}
 	stream . read (Buffer, BufferSize);
-	if (! stream . good ()){stream.clear(); return -1;}
+	if (! stream . good ()){
+		stream.clear(); 
+		BufferSize = -1;
+		return -1;
+	}
+
+	// project1 : 6-21, 6-23
+	// check if the record is deleted
+	if (Buffer[0] == '*') {
+		deletedRecaddr = recaddr;
+		return -1;
+	}
+
 	return recaddr;
 }
-
 
 int VariableLengthBuffer :: Write (ostream & stream) const
 // write the length and buffer into the stream
@@ -102,3 +127,12 @@ int VariableLengthBuffer :: Init ()
 	return TRUE;
 }
 
+// project1 : 6-21, 6-23
+void VariableLengthBuffer::Delete(ostream& os, int recaddr) {
+	os.seekp(recaddr + 2, ios::beg);
+	os.write("*", 1);
+}
+
+int VariableLengthBuffer::SizeOfBuffer() const{
+	return BufferSize;
+}

@@ -1,7 +1,7 @@
 #ifndef __MEMBER_MANAGER_H__
 #define __MEMBER_MANAGER_H__
 
-#define MIN_MEMBER_DUMMY_RECORD_LEN (2 + 6 + 10)
+#define MIN_MEMBER_DUMMY_RECORD_LEN (2 + 7)
 
 #include <string>
 #include <cstring>

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "iobuffer.h"
+#define AVAIL_MAX 100
 
 class FixedLengthBuffer: public IOBuffer
 // Abstract class designed to support fixed length records
@@ -20,6 +21,9 @@ class FixedLengthBuffer: public IOBuffer
 	int WriteHeader (ostream &) const; // write a header to the stream
 	void Print (ostream &) const;
 	int SizeOfBuffer () const; // return size of buffer
+
+	// project1 : 6-21, 6-23
+	void Delete(ostream& os, int recaddr);
 
  protected:
  	int Init (int recordSize);

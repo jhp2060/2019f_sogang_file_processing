@@ -24,7 +24,7 @@ public:
 	char mileage[MAX_MILEAGE];
 
 	// project2
-	char level[2] = "1";
+	char level[2] = "9";
 	string key;
 
 public:

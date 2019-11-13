@@ -18,6 +18,7 @@ class TextIndexBuffer: public FixedFieldBuffer
 	int Pack (const TextIndex &);
 	int Unpack (TextIndex &);
 	void Print (ostream &) const;
+
 protected:
 	int MaxKeys;
 	int KeySize;

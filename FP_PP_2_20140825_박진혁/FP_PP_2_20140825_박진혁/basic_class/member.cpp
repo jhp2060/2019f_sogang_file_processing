@@ -68,6 +68,7 @@ istream & operator >> (istream &is, Member &m) {
 
 ostream & operator << (ostream &os, Member &m) {
     string mMileage (m.mileage, MAX_MILEAGE);
+	string mLevel(m.level, 2);
 
     os << "ID : " << m.id << endl;
     os << "PASSWORD : " << m.password << endl;
@@ -75,10 +76,11 @@ ostream & operator << (ostream &os, Member &m) {
     os << "PHONE NUMBER : " << m.phoneNumber << endl;
     os << "ADDRESS : " << m.address << endl;
     os << "MILEAGE : " << mMileage << endl;
-
+	
 	// project2
 	// default level of member is "1"
-    
+	os << "LEVEL : " << mLevel << endl;
+
     return os; 
 }
 bool Member::Pack(IOBuffer &Buffer) const {

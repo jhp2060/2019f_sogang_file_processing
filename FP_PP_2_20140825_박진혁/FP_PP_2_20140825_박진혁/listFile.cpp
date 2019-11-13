@@ -83,6 +83,7 @@ void generateSusbscriptionList(int size,
 		strcpy(newsAgencyId,
 			intToString((rand() % newsAgencySize) + 1, 12).c_str());
 		memberId = "m_id_" + to_string((rand() % memberSize) + 1);
+		if (i <= 20) memberId = "TestUser";
 		strcpy(mileage, generateRandomNumber(10).c_str());
 		ofs << subscriptionId << '|' << newsAgencyId << '|'
 			<< memberId << '|' << mileage << '\n';

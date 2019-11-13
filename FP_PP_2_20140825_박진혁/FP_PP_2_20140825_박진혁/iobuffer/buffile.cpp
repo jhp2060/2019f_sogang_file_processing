@@ -100,9 +100,9 @@ int BufferFile::WriteHeader ()
 	return Buffer . WriteHeader (File);
 }
 
-// project1 : 6-21
-//int BufferFile::Delete(int recaddr) {
-//	File.seekp(recaddr, ios::beg);
-//	Buffer.Delete(File);
-//	return recaddr;
-//}
+// project1 : 6-21, 6-23
+void BufferFile::Delete(int recaddr) {
+	// assume that recaddr is valid
+
+	Buffer.Delete(File, recaddr);
+}

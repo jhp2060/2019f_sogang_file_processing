@@ -12,15 +12,15 @@
 #include "subscription_manager.h"
 #include "listFile.h"
 
-#define MIN_NEWS_AGENCY_DUMMY_RECORD_LEN (2 + 3 + 12)
+#define MIN_NEWS_AGENCY_DUMMY_RECORD_LEN (2 + 3)
 
 using namespace std;
 
 class NewsAgencyManager {
 public:
-	bool newsAgencySearch(string newsAgencyId);
+	NewsAgency* newsAgencySearch(string newsAgencyId);
 	void newsAgencyInsert();
-	void newsAgencyUpdate();
+	void newsAgencyUpdate(string newsAgencyId);
 	void newsAgencyDelete(string newsAgencyId);
 };
 

@@ -28,10 +28,12 @@ class BufferFile
    public:
 	BufferFile (IOBuffer &); // create with a buffer
 
+	// file operation
 	int Open (char * filename, int MODE); // open an existing file
 	int Create (char * filename, int MODE); // create a new file
 	int Close ();
 	int Rewind (); // reset to the first data record
+
 	// Input and Output operations
 	int Read (int recaddr = -1); 
 		// read a record into the buffer
@@ -42,13 +44,13 @@ class BufferFile
 	int Write (int recaddr = -1); // write the current buffer contents
 	int Append (); // write the current buffer at the end of file
 
+	// project1 : 6-21, 6-22, 6-25
+	void Delete(int recaddr);
+	
+
 	// Access to IOBuffer
 	IOBuffer & GetBuffer ();
-
-	// project1 : 6-21, 6-22, 6-25
-	//int Delete(int recaddr);
-	//int Update(int )
-
+	
    protected:
 	IOBuffer & Buffer;
 	fstream File;

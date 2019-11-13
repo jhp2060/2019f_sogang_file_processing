@@ -1,37 +1,45 @@
 #include "newsAgency_manager.h"
 
-bool NewsAgencyManager::newsAgencySearch(string newsAgencyId) {
-	DelimFieldBuffer buf('|', STDMAXBUF);
-	RecordFile<NewsAgency> newsAgencyFile(buf);
-	newsAgencyFile.Open(getDataFileName<NewsAgency>(), ios::in);
+NewsAgency* NewsAgencyManager::newsAgencySearch(string newsAgencyId) {
 
-	NewsAgency newsAgency;
-	int recaddr = newsAgencyFile.Read(newsAgency);
-	// linear serach
-	while (recaddr != -1) {
-		if (newsAgencyId == string(newsAgency.newsAgencyId, MAX_NEWS_AGENCY_ID - 1)) {
-			cout << newsAgency;
-			newsAgencyFile.Close();
-			return true;
-		}
-		recaddr = newsAgencyFile.Read(newsAgency);
+	// read newsAgency instance with index file
+	DelimFieldBuffer buf('|', STDMAXBUF);
+	TextIndexedFile<NewsAgency> newsAgencyIndexedFile(
+		buf,
+		getMaxRecordKeyLength<NewsAgency>(),
+		getMaxRecordNumber<NewsAgency>()
+	);
+	newsAgencyIndexedFile.Open(getFileNameNoExtension<NewsAgency>(), ios::in);
+
+	NewsAgency* newsAgency = new NewsAgency();
+	newsAgency->updateNewsAgencyId(newsAgencyId.c_str());
+
+	// find newsAgency with key using Search and get the address
+	if (newsAgencyIndexedFile.Read(newsAgency->Key(), *newsAgency) == -1) {
+		free(newsAgency);
+		newsAgencyIndexedFile.Close();
+		return NULL;
 	}
-	newsAgencyFile.Close();
-	cout << "There is no newsAgency with ID " << newsAgencyId << ".\n";
-	return false;
+	else {
+		newsAgencyIndexedFile.Close();
+		return newsAgency;
+	}
 }
 
 
 void NewsAgencyManager::newsAgencyInsert() {
-	NewsAgency newNewsAgency;
+	NewsAgency newNewsAgency, *searchResult;
 	char s[256];
 
 	// get new newsAgency record to insert
 	cout << "Input new NewsAgecnyId (12 letters): ";
 	cin >> s;
 	newNewsAgency.updateNewsAgencyId(s);
-	if (newsAgencySearch(s)) {
-		cout << "error : There is same newsAgency with ID " << s << ".\n";
+
+	searchResult = newsAgencySearch(s);
+	if (searchResult != NULL) {
+		cout << "There is same newsAgency with ID " << s << ".\n";
+		free(searchResult);
 		return;
 	}
 	else {
@@ -47,17 +55,18 @@ void NewsAgencyManager::newsAgencyInsert() {
 	}
 }
 
-void NewsAgencyManager::newsAgencyUpdate() {
-	NewsAgency newNewsAgency;
+void NewsAgencyManager::newsAgencyUpdate(string newsAgencyId) {
+	NewsAgency newNewsAgency, *searchResult;
     char s[256];
 
-    cout << "Input newsAgency id (12 letters): "; 
-    cin >> s;
-	newNewsAgency.updateNewsAgencyId(s);
-	if (!newsAgencySearch(s)) {
-        cout << "There is no newsAgency to update with ID " << string(s) << ".\n";
+	newNewsAgency.updateNewsAgencyId(newsAgencyId.c_str());
+	searchResult = newsAgencySearch(s);
+	if (searchResult == NULL) {
+        cout << "There is no newsAgency to update with ID " << newsAgencyId << ".\n";
         return ;
     } else {
+		free(searchResult);
+		
         newsAgencyDelete(s);
 
         cout << "Input new name : ";
@@ -71,60 +80,39 @@ void NewsAgencyManager::newsAgencyUpdate() {
 		saveNewsAgencyRecord(newNewsAgency);	
 	}
 }
+
+
 void NewsAgencyManager::newsAgencyDelete(string newsAgencyId) {
+	// read newsAgency instance with index file
 	DelimFieldBuffer buf('|', STDMAXBUF);
-	RecordFile<NewsAgency> newsAgencyFile(buf);
-	newsAgencyFile.Open(getDataFileName<NewsAgency>(), ios::in | ios::out);
+	TextIndexedFile<NewsAgency> newsAgencyIndexedFile(
+		buf,
+		getMaxRecordKeyLength<NewsAgency>(),
+		getMaxRecordNumber<NewsAgency>()
+	);
 
-	// linear serach
+	newsAgencyIndexedFile.Open(getFileNameNoExtension<NewsAgency>(), ios::in | ios::out);
+
 	NewsAgency curNewsAgency;
-	int curRecaddr = newsAgencyFile.Read(curNewsAgency);
-	int prevRecaddr = curRecaddr;
-	while (curRecaddr != -1) {
-		if (newsAgencyId == string(curNewsAgency.newsAgencyId, MAX_NEWS_AGENCY_ID - 1)) {
-			// keeping reference integrity
-			subscriptionDeleteWithNewsAgencyId(string(curNewsAgency.newsAgencyId, MAX_NEWS_AGENCY_ID - 1));
+	curNewsAgency.updateNewsAgencyId(newsAgencyId.c_str());
 
-			// calculate the length of record to delete
-			int recordLen = getNewsAgencyRecordLen(curNewsAgency);
+	// get recaddr of curNewsAgency from .dat file
+	int curRecaddr = newsAgencyIndexedFile.Read(curNewsAgency.Key(), curNewsAgency);
 
-			// make the current newsAgency record as a dummy record
-			makeDummyNewsAgency(curNewsAgency, recordLen);
-			newsAgencyFile.Write(curNewsAgency, curRecaddr);
-
-			// merge the dummy record compartments (prev and cur)
-			NewsAgency prevNewsAgency;
-			newsAgencyFile.Read(prevNewsAgency, prevRecaddr);
-			
-			if (prevRecaddr != curRecaddr) { // newsAgency is not the first record
-				// get previous NewsAgency record
-				if (string(prevNewsAgency.newsAgencyId, MAX_NEWS_AGENCY_ID - 1).find('*', 0) 
-					!= string::npos) {
-					// previous and current newsAgency record are a dummy record
-					int prevLen = getNewsAgencyRecordLen(prevNewsAgency);
-					int curLen = getNewsAgencyRecordLen(curNewsAgency);
-					curRecaddr = prevRecaddr;
-					// make new dummy record merging two dummy records
-					makeDummyNewsAgency(prevNewsAgency, prevLen + curLen);
-					// merge two compartments and save it at prevRecaddr
-					newsAgencyFile.Write(prevNewsAgency, curRecaddr);
-				}
-			}
-
-			/* TO DO!! IMPLMENT MERGE OF CUR AND NEXT DUMMY RECORDS */
-
-			newsAgencyFile.Close();
-			cout << "Successful deletion of newsAgency with ID " << newsAgencyId << " .\n";
-
-			return;
-		}
-		prevRecaddr = curRecaddr;
-		curRecaddr = newsAgencyFile.Read(curNewsAgency);
+	// no newsAgency to delete
+	if (curRecaddr == -1) {
+		cout << "There is no newsAgency to delete with that id.\n";
+		return;
 	}
-	newsAgencyFile.Close();
-	cout << "There is no newsAgency to delete with ID " << newsAgencyId << ".\n";
-	return;
 
+	//subscriptionDeleteWithNewsAgencyId(string(curNewsAgency.newsAgencyId, MAX_NEWS_AGENCY_ID - 1));
+
+	// delete record from .dat & remove record from Index
+	newsAgencyIndexedFile.Delete(curRecaddr);
+	newsAgencyIndexedFile.Remove(curNewsAgency);
+
+	newsAgencyIndexedFile.Close();
+	return;
 }
 
 int getNewsAgencyRecordLen(NewsAgency n) {
@@ -140,7 +128,7 @@ int getNewsAgencyRecordLen(NewsAgency n) {
 void makeDummyNewsAgency(NewsAgency &n, int deletedRecordLen) {
 	// make dummy record
 	string tmp = "";
-	n.updateNewsAgencyId("************\0");
+	n.updateNewsAgencyId("");
 	// use varialbe length field to fill the vacancy
 	n.updateName(tmp);
 	n.updateAddress("");
@@ -150,40 +138,42 @@ void makeDummyNewsAgency(NewsAgency &n, int deletedRecordLen) {
 }
 
 void saveNewsAgencyRecord(NewsAgency newNewsAgency) {
+	// read newsAgency instance with index file
 	DelimFieldBuffer buf('|', STDMAXBUF);
-	RecordFile<NewsAgency> newsAgencyFile(buf);
-	newsAgencyFile.Open(getDataFileName<NewsAgency>(), ios::out);
+	TextIndexedFile<NewsAgency> newsAgencyIndexedFile(
+		buf,
+		getMaxRecordKeyLength<NewsAgency>(),
+		getMaxRecordNumber<NewsAgency>()
+	);
+
+	newsAgencyIndexedFile.Open(getFileNameNoExtension<NewsAgency>(), ios::in | ios::out);
 
 	NewsAgency newsAgency;
-	int recaddr = newsAgencyFile.Read(newsAgency);
-	while (true) {
-		if (recaddr == -1) {
-			newsAgencyFile.Write(newNewsAgency);
-			newsAgencyFile.Close();
-			cout << "Successfully saved the record!\n";
-			return;
-		}
-		else if (string(newsAgency.newsAgencyId, 
-			MAX_NEWS_AGENCY_ID - 1).find('*', 0) != string::npos) {
-			// found the vancant memory
-			// TODO : calculate the size of vacant memory 
-			//		  and find out it is enough to store this record
-			int dummyLen = getNewsAgencyRecordLen(newsAgency);
-			int recordLen = getNewsAgencyRecordLen(newNewsAgency);
-			int delta = dummyLen - recordLen;
-			if (delta >= MIN_NEWS_AGENCY_DUMMY_RECORD_LEN) {
-				// make the rest of vacant memory as dummy record
-				makeDummyNewsAgency(newsAgency, delta);
-				newsAgencyFile.Write(newsAgency, recaddr);
+	int recaddr;
+	int recordLen = getNewsAgencyRecordLen(newNewsAgency);
 
-				// save the new record at the dummy record(or deleted memory)
-				newsAgencyFile.Write(newNewsAgency, recaddr + delta);
-				cout << "Successful saved the record!\n";
-				newsAgencyFile.Close();
+	while (true) {
+		if (newsAgencyIndexedFile.Read(newsAgency) == -1) {
+			if (buf.SizeOfBuffer() < 0) {
+				// append to the last of .dat file
+				newsAgencyIndexedFile.Append(newNewsAgency);
+				newsAgencyIndexedFile.Close();
+				return;
+			}
+			else if (buf.SizeOfBuffer() + 2 >= recordLen + MIN_NEWS_AGENCY_DUMMY_RECORD_LEN) {
+				// check the deleted data space
+				int delta = buf.SizeOfBuffer() + 2 - recordLen;
+
+				newsAgencyIndexedFile.Write(newNewsAgency, buf.deletedRecaddr);
+				newsAgencyIndexedFile.Insert(newNewsAgency.Key(), buf.deletedRecaddr);
+
+				makeDummyNewsAgency(newsAgency, delta);
+				newsAgencyIndexedFile.Write(newsAgency, -1);
+
+				newsAgencyIndexedFile.Close();
+				//cout << "Successfully saved the record!\n";
 				return;
 			}
 		}
-		// get the address for next record;
-		recaddr = newsAgencyFile.Read(newsAgency);
 	}
 }
