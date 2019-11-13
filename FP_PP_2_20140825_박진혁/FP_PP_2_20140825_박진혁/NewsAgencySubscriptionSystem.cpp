@@ -1,14 +1,15 @@
 #include "NewsAgencySubscriptionSystem.h"
 
 void init() {
-	generateMemberList(1000);
+	/*generateMemberList(1000);
 	generateNewsAgencyList(1000);
 	generateSusbscriptionList(10000, 1000, 1000);
+	*/
 
 	// make .dat files
-	dataTest<Member>();
+	/*dataTest<Member>();
 	dataTest<NewsAgency>();
-	dataTest<Subscription>();
+	dataTest<Subscription>();*/
 
 
 	// renew .ind files
